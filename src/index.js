@@ -9,17 +9,21 @@ import {
 const store = createStore(reducer);
 const {dispatch} = store;
 
-document.getElementById('inc').addEventListener('click', () => {
-  dispatch(inc());
-});
+const bindActionCreator = (creator, dispatch) =>  (...args) => {
+  dispatch(creator(...args));
+}
 
-document.getElementById('dec').addEventListener('click', () => {
-  dispatch(dec());
-});
+const incDispatch = bindActionCreator(inc, dispatch);
+const decDispatch = bindActionCreator(dec, dispatch);
+const rndDispatch = bindActionCreator(rnd, dispatch);
+
+document.getElementById('inc').addEventListener('click', incDispatch);
+
+document.getElementById('dec').addEventListener('click', decDispatch)
 
 document.getElementById('rnd').addEventListener('click', () => {
   const value = Math.floor(Math.random() * 10);
-  dispatch(rnd(value));
+  rndDispatch(value);
 });
 
 
